@@ -354,5 +354,450 @@ function Welcome3(props) {
 }
 
 const root12 = ReactDOM.createRoot(document.getElementById('root12'));
-const element11 = <Welcome3 name="Sara" />; 
+const element11 = <Welcome3 name="Sara" />;
 root12.render(element11);
+
+
+//COMPOSING COMPONENTS
+/*
+Components can refer to other components in their output. This lets us use the same component 
+abstraction for any level of detail. A button, a form, a dialog, a screen: in React apps, 
+all those are commonly expressed as components.
+
+For example, we can create an App component that renders Welcome many times:
+
+function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+
+function App() {
+  return (
+    <div>
+      <Welcome name="Sara" />      
+      <Welcome name="Cahal" />      
+      <Welcome name="Edite" />    
+    </div>
+  );
+}
+
+Try it on CodePen
+
+Typically, new React apps have a single App component at the very top. However, if you 
+integrate React into an existing app, you might start bottom-up with a small component 
+like Button and gradually work your way to the top of the view hierarchy.
+*/
+
+function Welcome4(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+
+function App() {
+  return (
+    <div>
+      <Welcome4 name="Sara rep" />
+      <Welcome4 name="Cahal rep" />
+      <Welcome4 name="Edite rep" />
+    </div>
+  );
+}
+
+const root13 = ReactDOM.createRoot(document.getElementById('root13'));
+root13.render(App());
+
+
+
+//EXTRACTING COMPONENTS
+
+/*
+Don’t be afraid to split components into smaller components.
+
+For example, consider this Comment component:
+
+function Comment(props) {
+  return (
+    <div className="Comment">
+      <div className="UserInfo">
+        <img className="Avatar"
+          src={props.author.avatarUrl}
+          alt={props.author.name}
+        />
+        <div className="UserInfo-name">
+          {props.author.name}
+        </div>
+      </div>
+      <div className="Comment-text">
+        {props.text}
+      </div>
+      <div className="Comment-date">
+        {formatDate(props.date)}
+      </div>
+    </div>
+  );
+}
+
+Try it on CodePen
+
+It accepts author (an object), text (a string), and date (a date) as props, and describes a 
+comment on a social media website.
+
+This component can be tricky to change because of all the nesting, and it is also hard to 
+reuse individual parts of it. Let’s extract a few components from it.
+
+First, we will extract Avatar:
+
+function Avatar(props) {
+  return (
+    <img className="Avatar"      
+    src={props.user.avatarUrl}      
+    alt={props.user.name}    
+    />  
+  );
+}
+
+The Avatar doesn’t need to know that it is being rendered inside a Comment. This is why we 
+have given its prop a more generic name: user rather than author.
+
+We recommend naming props from the component’s own point of view rather than the context in 
+which it is being used.
+
+We can now simplify Comment a tiny bit:
+
+function Comment(props) {
+  return (
+    <div className="Comment">
+      <div className="UserInfo">
+        <Avatar user={props.author} />        
+        <div className="UserInfo-name">
+          {props.author.name}
+        </div>
+      </div>
+      <div className="Comment-text">
+        {props.text}
+      </div>
+      <div className="Comment-date">
+        {formatDate(props.date)}
+      </div>
+    </div>
+  );
+}
+
+Next, we will extract a UserInfo component that renders an Avatar next to the user’s name:
+
+function UserInfo(props) {
+  return (
+    <div className="UserInfo">      
+    <Avatar user={props.user} />      
+    <div className="UserInfo-name">        
+      {props.user.name}      
+      </div>    
+    </div>  
+  );
+}
+
+This lets us simplify Comment even further:
+
+function Comment(props) {
+  return (
+    <div className="Comment">
+      <UserInfo user={props.author} />      
+      <div className="Comment-text">
+        {props.text}
+      </div>
+      <div className="Comment-date">
+        {formatDate(props.date)}
+      </div>
+    </div>
+  );
+}
+
+Try it on CodePen
+
+Extracting components might seem like grunt work at first, but having a palette of reusable 
+components pays off in larger apps. A good rule of thumb is that if a part of your UI is 
+used several times (Button, Panel, Avatar), or is complex enough on its own (App, FeedStory, 
+  Comment), it is a good candidate to be extracted to a separate component.
+*/
+
+
+//PROPS ARE READ-ONLY
+/*
+Whether you declare a component as a function or a class, it must never modify its own props. 
+Consider this sum function:
+
+function sum(a, b) {
+  return a + b;
+}
+
+Such functions are called “pure” because they do not attempt to change their inputs, and 
+always return the same result for the same inputs.
+
+In contrast, this function is impure because it changes its own input:
+
+function withdraw(account, amount) {
+  account.total -= amount;
+}
+
+React is pretty flexible but it has a single strict rule:
+
+All React components must act like pure functions with respect to their props!!!!!!!!!!!
+
+Of course, application UIs are dynamic and change over time. In the next section, we will 
+introduce a new concept of “state”. State allows React components to change their output 
+over time in response to user actions, network responses, and anything else, without 
+violating this rule.
+*/
+
+//PURE
+function sum(a, b) {
+  return a + b;
+}
+
+//IMPURE
+function withdraw(account, amount) {
+  account.total -= amount;
+}
+
+
+
+//************************************************************************************
+// STATE AND LIFECYCLE
+//************************************************************************************
+
+/*
+This page introduces the concept of state and lifecycle in a React component. You can find a 
+detailed component API reference here.
+
+Consider the ticking clock example from one of the previous sections. In Rendering Elements, 
+we have only learned one way to update the UI. We call root.render() to change the rendered 
+output:
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+  
+function tick() {
+  const element = (
+    <div>
+      <h1>Hello, world!</h1>
+      <h2>It is {new Date().toLocaleTimeString()}.</h2>
+    </div>
+  );
+  root.render(element);}
+
+setInterval(tick, 1000);
+
+Try it on CodePen
+
+In this section, we will learn how to make the Clock component truly reusable and 
+encapsulated. It will set up its own timer and update itself every second.
+
+We can start by encapsulating how the clock looks:
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+function Clock(props) {
+  return (
+    <div>      
+    <h1>Hello, world!</h1>      
+    <h2>It is {props.date.toLocaleTimeString()}.</h2>    
+    </div>  
+  );
+}
+
+function tick() {
+  root.render(<Clock date={new Date()} />);}
+
+setInterval(tick, 1000);
+
+Try it on CodePen
+
+However, it misses a crucial requirement: the fact that the Clock sets up a timer and 
+updates the UI every second should be an implementation detail of the Clock.
+
+Ideally we want to write this once and have the Clock update itself:
+
+root.render(<Clock />);
+
+To implement this, we need to add “state” to the Clock component.
+
+State is similar to props, but it is private and fully controlled by the component.
+*/
+
+//EXAMPLE WITH PROPS
+const root14 = ReactDOM.createRoot(document.getElementById('root14'));
+
+function tick2() {
+  const element12 = (
+    <div>
+      <h1>Hello, world!</h1>
+      <h2>It is {new Date().toLocaleTimeString()}.</h2>
+    </div>
+  );
+  root14.render(element12);
+}
+
+
+setInterval(tick2, 1000);
+
+//ENCAPSULATE
+const root15 = ReactDOM.createRoot(document.getElementById('root15'));
+
+function Clock(props) {
+  return (
+    <div>
+      <h1>Hello, world!</h1>
+      <h2>It is {props.date.toLocaleTimeString()}.........</h2>
+    </div>
+  );
+}
+
+function tick3() {
+  root15.render(<Clock date={new Date()} />);
+}
+
+setInterval(tick3, 1000);
+
+//CONVERTING A FUNCTION TO CLASS
+
+/*
+You can convert a function component like Clock to a class in five steps:
+
+    Create an ES6 class, with the same name, that extends React.Component.
+    Add a single empty method to it called render().
+    Move the body of the function into the render() method.
+    Replace props with this.props in the render() body.
+    Delete the remaining empty function declaration.
+
+class Clock extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {this.props.date.toLocaleTimeString()}.</h2>
+      </div>
+    );
+  }
+}
+
+Try it on CodePen
+
+Clock is now defined as a class rather than a function.
+
+The render method will be called each time an update happens, but as long as we render 
+<Clock /> into the same DOM node, only a single instance of the Clock class will be used. 
+This lets us use additional features such as local state and lifecycle methods.
+*/
+
+const root16 = ReactDOM.createRoot(document.getElementById('root16'));
+
+class Clock2 extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {this.props.date.toLocaleTimeString()}!!!!!</h2>
+      </div>
+    );
+  }
+}
+
+function tick4() {
+  root16.render(<Clock2 date={new Date()} />);
+}
+
+setInterval(tick4, 1000);
+
+//ADDING LOCAL STATE TO A CLASS
+
+/*
+We will move the date from props to state in three steps:
+
+    Replace this.props.date with this.state.date in the render() method:
+
+class Clock extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>      
+      </div>
+    );
+  }
+}
+
+    Add a class constructor that assigns the initial this.state:
+
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};  }
+
+  render() {
+    return (
+      <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+      </div>
+    );
+  }
+}
+
+Note how we pass props to the base constructor:
+
+  constructor(props) {
+    super(props);    this.state = {date: new Date()};
+  }
+
+Class components should always call the base constructor with props.
+
+    Remove the date prop from the <Clock /> element:
+
+root.render(<Clock />);
+
+We will later add the timer code back to the component itself.
+
+The result looks like this:
+
+class Clock extends React.Component {
+  constructor(props) {    super(props);    this.state = {date: new Date()};  }
+  render() {
+    return (
+      <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>      
+      </div>
+    );
+  }
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Clock />);
+
+Try it on CodePen
+
+Next, we’ll make the Clock set up its own timer and update itself every second.
+*/
+
+//1
+class Clock4 extends React.Component {
+  //2
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};  
+  }
+
+  //1
+  render() {
+    return (
+      <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {this.state.date.toLocaleTimeString()}OOOOOOOOOOO.</h2>      
+      </div>
+    );
+  }
+}
+
+//3
+const root17 = ReactDOM.createRoot(document.getElementById('root17'));
+root17.render(<Clock4 />);
+
+
+//ADDING LIFECYCLE METHODS TO A CLASS
