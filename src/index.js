@@ -1186,5 +1186,54 @@ class Clock10 extends React.Component {
 const root19 = ReactDOM.createRoot(document.getElementById('root19'));
 root19.render(<Clock10 />);
 
+//
 
+function FormattedDate2(props) {
+  return <h2>It is {props.date.toLocaleTimeString()}.</h2>;
+}
 
+class Clock11 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Hello, world!</h1>
+        <FormattedDate2 date={this.state.date} />
+      </div>
+    );
+  }
+}
+
+function App2() {
+  return (
+    <div>
+      <Clock11 />
+      <Clock11 />
+      <Clock11 />
+    </div>
+  );
+}
+
+const root20 = ReactDOM.createRoot(document.getElementById('root20'));
+root20.render(<App2 />);
