@@ -174,8 +174,10 @@ We will explore rendering React elements to the DOM in the next section.
 
 */
 
+//create variable with React specific creation location
 const root1 = ReactDOM.createRoot(document.getElementById('root1'));
 const k = "DT"
+//use render() method to render the data at the location
 root1.render(<h1>Hello, {k}</h1>);
 
 //*** */
@@ -193,7 +195,7 @@ const user = {
 
 const element = (
   <h1>
-    Hello, {formatName(user)}!
+    Hello, {formatName(user)}1!
   </h1>
 );
 
@@ -204,7 +206,7 @@ root2.render(element);//no curly braces
 
 function getGreeting(user) {
   if (user) {
-    return <h1>Hello, {formatName(user)}!</h1>;
+    return <h1>Hello, {formatName(user)}2!</h1>;
   }
   return <h1>Hello, Stranger.</h1>;
 }
@@ -281,7 +283,7 @@ const element7 = (
 const element8 = React.createElement(
   'h1',
   { className: 'greeting' },
-  'Hello, world!........'
+  'Hello, world!....777777777'
 );
 
 const root8 = ReactDOM.createRoot(document.getElementById('root8'));
@@ -396,7 +398,7 @@ function tick() {
   const element10 = (
     <div>
       <h1>Hello, TIME!</h1>
-      <h2>It is {new Date().toLocaleTimeString()}.</h2>
+      <h2>It is {new Date().toLocaleTimeString()}............................................................</h2>
     </div>
   );
   root11.render(element10);
@@ -417,7 +419,6 @@ node whose contents have changed gets updated by React DOM.
 
 In our experience, thinking about how the UI should look at any given moment, rather 
 than how to change it over time, eliminates a whole class of bugs.
-
 */
 
 
@@ -463,13 +464,15 @@ Function and Class components both have some additional features that we will di
 the next sections.
 */
 
+//function component
 function Welcome2(props) {
-  return <h1>Hello, {props.name}</h1>;
+  return <h1>Hello, {props.name}..........................................</h1>;
 }
 
+//class component
 class Welcome extends React.Component {
   render() {
-    return <h1>Hello, {this.props.name}</h1>;
+    return <h1>Hello, {this.props.name}..............................................</h1>;
   }
 }
 
@@ -485,25 +488,29 @@ However, elements can also represent user-defined components:
 
 const element = <Welcome name="Sara" />;
 
+!!!!!!!!!!
 When React sees an element representing a user-defined component, it passes JSX attributes 
 and children to this component as a single object. We call this object “props”.
+!!!!!!!!!!
 
 For example, this code renders “Hello, Sara” on the page:
 
-function Welcome(props) {  return <h1>Hello, {props.name}</h1>;
+function Welcome(props) {  
+  return <h1>Hello, {props.name}</h1>;
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const element = <Welcome name="Sara" />;root.render(element);
+const element = <Welcome name="Sara" />;
+root.render(element);
 
 Try it on CodePen
 
 Let’s recap what happens in this example:
 
-    We call root.render() with the <Welcome name="Sara" /> element.
-    React calls the Welcome component with {name: 'Sara'} as the props.
-    Our Welcome component returns a <h1>Hello, Sara</h1> element as the result.
-    React DOM efficiently updates the DOM to match <h1>Hello, Sara</h1>.
+    1. We call root.render() with the <Welcome name="Sara" /> element.
+    2. React calls the Welcome component with {name: 'Sara'} as the props.
+    3. Our Welcome component returns a <h1>Hello, Sara</h1> element as the result.
+    4. React DOM efficiently updates the DOM to match <h1>Hello, Sara</h1>.
 
     Note: Always start component names with a capital letter.
 
@@ -516,7 +523,7 @@ Let’s recap what happens in this example:
 */
 
 function Welcome3(props) {
-  return <h1>Hello, {props.name}</h1>;
+  return <h1>Hello, {props.name}... props are general single objects passed</h1>;
 }
 
 const root12 = ReactDOM.createRoot(document.getElementById('root12'));
@@ -553,10 +560,12 @@ integrate React into an existing app, you might start bottom-up with a small com
 like Button and gradually work your way to the top of the view hierarchy.
 */
 
+//child
 function Welcome4(props) {
-  return <h1>Hello, {props.name}</h1>;
+  return <h1>Hello, {props.name}............. coooomponnnnnents</h1>;
 }
 
+//parent
 function App() {
   return (
     <div>
@@ -582,21 +591,27 @@ For example, consider this Comment component:
 function Comment(props) {
   return (
     <div className="Comment">
+      
       <div className="UserInfo">
+
         <img className="Avatar"
           src={props.author.avatarUrl}
-          alt={props.author.name}
-        />
-        <div className="UserInfo-name">
-          {props.author.name}
-        </div>
+          alt={props.author.name}/>
+
+          <div className="UserInfo-name">
+            {props.author.name}
+          </div>
+        
       </div>
+
       <div className="Comment-text">
         {props.text}
       </div>
+
       <div className="Comment-date">
         {formatDate(props.date)}
       </div>
+    
     </div>
   );
 }
@@ -631,18 +646,23 @@ We can now simplify Comment a tiny bit:
 function Comment(props) {
   return (
     <div className="Comment">
+      
       <div className="UserInfo">
-        <Avatar user={props.author} />        
+
+        <Avatar user={props.author} /> //!!!!!!!!!!        
         <div className="UserInfo-name">
           {props.author.name}
         </div>
       </div>
+
       <div className="Comment-text">
         {props.text}
       </div>
+      
       <div className="Comment-date">
         {formatDate(props.date)}
       </div>
+
     </div>
   );
 }
@@ -652,10 +672,13 @@ Next, we will extract a UserInfo component that renders an Avatar next to the us
 function UserInfo(props) {
   return (
     <div className="UserInfo">      
-    <Avatar user={props.user} />      
-    <div className="UserInfo-name">        
-      {props.user.name}      
+    
+      <Avatar user={props.user} /> //!!!!!!!!!!!!!!     
+      
+      <div className="UserInfo-name">        
+        {props.user.name}      
       </div>    
+
     </div>  
   );
 }
@@ -665,13 +688,17 @@ This lets us simplify Comment even further:
 function Comment(props) {
   return (
     <div className="Comment">
-      <UserInfo user={props.author} />      
+
+      <UserInfo user={props.author} /> //!!!!!!!!!!!!!!!  
+    
       <div className="Comment-text">
         {props.text}
       </div>
+    
       <div className="Comment-date">
         {formatDate(props.date)}
       </div>
+    
     </div>
   );
 }
@@ -705,13 +732,58 @@ function withdraw(account, amount) {
 
 React is pretty flexible but it has a single strict rule:
 
+!!!!!!!!!
 All React components must act like pure functions with respect to their props!!!!!!!!!!!
+!!!!!!!!!
 
 Of course, application UIs are dynamic and change over time. In the next section, we will 
 introduce a new concept of “state”. State allows React components to change their output 
 over time in response to user actions, network responses, and anything else, without 
 violating this rule.
 */
+
+function formatDate(date) {
+  return date.toLocaleDateString();
+}
+
+function Comment(props) {
+  return (
+    <div className="Comment">
+      <div className="UserInfo">
+        <img className="Avatar"
+             src={props.author.avatarUrl}
+             alt={props.author.name} />
+        <div className="UserInfo-name">
+          {props.author.name}
+        </div>
+      </div>
+      <div className="Comment-text">
+        {props.text}
+      </div>
+      <div className="Comment-date">
+        {formatDate(props.date)}
+      </div>
+    </div>
+  );
+}
+
+const comment = {
+  date: new Date(),
+  text: 'I hope you enjoy learning React!',
+  author: {
+    name: 'Hello Kitty',
+    avatarUrl: 'http://placekitten.com/g/64/64'
+  }
+};
+
+const root132 = ReactDOM.createRoot(document.getElementById('root13-2'));
+root132.render(
+  <Comment
+    date={comment.date}
+    text={comment.text}
+    author={comment.author} />
+);
+
 
 //PURE
 function sum(a, b) {
