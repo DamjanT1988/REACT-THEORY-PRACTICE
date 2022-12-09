@@ -751,8 +751,8 @@ function Comment(props) {
     <div className="Comment">
       <div className="UserInfo">
         <img className="Avatar"
-             src={props.author.avatarUrl}
-             alt={props.author.name} />
+          src={props.author.avatarUrl}
+          alt={props.author.name} />
         <div className="UserInfo-name">
           {props.author.name}
         </div>
@@ -1367,15 +1367,17 @@ this.setState(function(state, props) {
 Neither parent nor child components can know if a certain component is stateful or stateless, 
 and they shouldn’t care whether it is defined as a function or a class.
 
-This is why state is often called local or encapsulated. It is not accessible to any component 
+This is why state is often called ---local or encapsulated---. It is not accessible to any component 
 other than the one that owns and sets it.
 
 A component may choose to pass its state down as props to its child components:
 
 <FormattedDate date={this.state.date} />
 
+!!!!!!!
 The FormattedDate component would receive the date in its props and wouldn’t know whether it 
 came from the Clock’s state, from the Clock’s props, or was typed by hand:
+!!!!!!!
 
 function FormattedDate(props) {
   return <h2>It is {props.date.toLocaleTimeString()}.</h2>;
@@ -1383,9 +1385,11 @@ function FormattedDate(props) {
 
 Try it on CodePen
 
-This is commonly called a “top-down” or “unidirectional” data flow. Any state is always owned by 
-some specific component, and any data or UI derived from that state can only affect components 
+!!!!!!!!!
+This is commonly called a ---“top-down” or “unidirectional” data flow---. Any state is always owned by 
+some specific component(!!!!!!), and any data or UI derived from that state can only affect components 
 “below” them in the tree.
+!!!!!!!!!
 
 If you imagine a component tree as a waterfall of props, each component’s state is like an 
 additional water source that joins it at an arbitrary point but also flows down.
@@ -1419,33 +1423,36 @@ function FormattedDate(props) {
   return <h2>It is {props.date.toLocaleTimeString()}.</h2>;
 }*/
 
+
+//4
 function FormattedDate(props) {
-  return <h2>It is {props.date.toLocaleTimeString()}.8888888888888</h2>;
+  return <h2>It is {props.date.toLocaleTimeString()}.8888888888888-----------------------------------------</h2>;
 }
 
 class Clock10 extends React.Component {
+  //2
   constructor(props) {
     super(props);
     this.state = { date: new Date() };
   }
-
+  //5
   componentDidMount() {
     this.timerID = setInterval(
       () => this.tick(),
       1000
     );
   }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
+  //6
   tick() {
     this.setState({
       date: new Date()
     });
   }
-
+  //7
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+  //3
   render() {
     return (
       <div>
@@ -1457,12 +1464,13 @@ class Clock10 extends React.Component {
 }
 
 const root19 = ReactDOM.createRoot(document.getElementById('root19'));
+//1
 root19.render(<Clock10 />);
 
 //
 
 function FormattedDate2(props) {
-  return <h2>It is {props.date.toLocaleTimeString()}.</h2>;
+  return <h2>It is {props.date.toLocaleTimeString()}mmmmmmmmmmmmmmmmmmm</h2>;
 }
 
 class Clock11 extends React.Component {
@@ -1498,6 +1506,7 @@ class Clock11 extends React.Component {
   }
 }
 
+//many instances of clock
 function App2() {
   return (
     <div>
@@ -2127,8 +2136,8 @@ function NumberList(props) {
 
 const numbers2 = [1, 2, 3, 4, 5];
 
-const root26 = ReactDOM.createRoot(document.getElementById('root26')); 
-root26.render( <NumberList numbers={numbers2} />);
+const root26 = ReactDOM.createRoot(document.getElementById('root26'));
+root26.render(<NumberList numbers={numbers2} />);
 
 
 //KEYS
@@ -2234,7 +2243,7 @@ function NumberList2(props) {
   const listItems = numbers3.map((number) =>
     // Correct! Key should be specified inside the array.
     <ListItem2 key={number.toString()}
-              value={number} />
+      value={number} />
   );
   return (
     <ul>
@@ -2245,7 +2254,7 @@ function NumberList2(props) {
 
 const numbers3 = [1, 2, 3, 4, 5];
 
-const root27 = ReactDOM.createRoot(document.getElementById('root27')); 
+const root27 = ReactDOM.createRoot(document.getElementById('root27'));
 root27.render(<NumberList2 numbers={numbers3} />);
 
 
@@ -2329,11 +2338,11 @@ function Blog(props) {
 }
 
 const posts = [
-  {id: 1, title: 'Hello World', content: 'Welcome to learning React!'},
-  {id: 2, title: 'Installation', content: 'You can install React from npm.'}
+  { id: 1, title: 'Hello World', content: 'Welcome to learning React!' },
+  { id: 2, title: 'Installation', content: 'You can install React from npm.' }
 ];
 
-const root28 = ReactDOM.createRoot(document.getElementById('root28')); 
+const root28 = ReactDOM.createRoot(document.getElementById('root28'));
 root28.render(<Blog posts={posts} />);
 
 
@@ -2386,7 +2395,7 @@ function NumberList3(props) {
     <ul>
       {numbers.map((number) =>
         <ListItem3 key={number.toString()}
-                  value={number} />
+          value={number} />
       )}
     </ul>
   );
@@ -2394,7 +2403,7 @@ function NumberList3(props) {
 
 const numbers4 = [1, 2, 3, 4, 5];
 
-const root29 = ReactDOM.createRoot(document.getElementById('root29')); 
+const root29 = ReactDOM.createRoot(document.getElementById('root29'));
 root29.render(<NumberList3 numbers={numbers4} />);
 
 
@@ -2479,18 +2488,18 @@ reset it from other event handlers.
 class NameForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: ''};
+    this.state = { value: '' };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+    this.setState({ value: event.target.value });
   }
 
   handleSubmit(event) {
-    alert('A name was submitted: "' + this.state.value +'"');
+    alert('A name was submitted: "' + this.state.value + '"');
     event.preventDefault();
   }
 
@@ -2562,15 +2571,15 @@ with some text in it.
 class EssayForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {      
-      value: 'Please write an essay about your favorite DOM element.'    
+    this.state = {
+      value: 'Please write an essay about your favorite DOM element.'
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {    
-    this.setState({value: event.target.value});  
+  handleChange(event) {
+    this.setState({ value: event.target.value });
   }
   handleSubmit(event) {
     alert('An essay was submitted: ' + this.state.value);
@@ -2582,7 +2591,7 @@ class EssayForm extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <label>
           Essay:
-          <textarea value={this.state.value} onChange={this.handleChange} />        
+          <textarea value={this.state.value} onChange={this.handleChange} />
         </label>
         <input type="submit" value="Submit" />
       </form>
@@ -2661,14 +2670,14 @@ similarly - they all accept a value attribute that you can use to implement a co
 class FlavorForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: 'coconut'};
+    this.state = { value: 'coconut' };
 
     this.handleChange3 = this.handleChange3.bind(this);
     this.handleSubmit3 = this.handleSubmit3.bind(this);
   }
 
   handleChange3(event) {
-    this.setState({value: event.target.value});
+    this.setState({ value: event.target.value });
   }
 
   handleSubmit3(event) {
@@ -2938,11 +2947,11 @@ class Calculator extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.state = {temperature: ''};
+    this.state = { temperature: '' };
   }
 
   handleChange(e) {
-    this.setState({temperature: e.target.value});
+    this.setState({ temperature: e.target.value });
   }
 
   render() {
@@ -3029,11 +3038,11 @@ class TemperatureInput extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.state = {temperature: ''};
+    this.state = { temperature: '' };
   }
 
   handleChange(e) {
-    this.setState({temperature: e.target.value});
+    this.setState({ temperature: e.target.value });
   }
 
   render() {
@@ -3043,7 +3052,7 @@ class TemperatureInput extends React.Component {
       <fieldset>
         <legend>Enter temperature in {scaleNames[scale]}:</legend>
         <input value={temperature}
-               onChange={this.handleChange} />
+          onChange={this.handleChange} />
       </fieldset>
     );
   }
@@ -3349,7 +3358,7 @@ class TemperatureInput2 extends React.Component {
       <fieldset>
         <legend>Enter temperature in {scaleNames2[scale]}:</legend>
         <input value={temperature}
-               onChange={this.handleChange} />
+          onChange={this.handleChange} />
       </fieldset>
     );
   }
@@ -3361,7 +3370,7 @@ class Calculator3 extends React.Component {
     super(props);
     this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
     this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
-    this.state = {temperature: '', scale: 'c'};
+    this.state = { temperature: '', scale: 'c' };
   }
 
   //3.When it previously rendered, the Calculator had specified that onTemperatureChange of the 
@@ -3372,11 +3381,11 @@ class Calculator3 extends React.Component {
   handleCelsiusChange(temperature) {
     //4.Inside these methods, the Calculator component asks React to re-render itself by calling 
     //this.setState() with the new input value and the current scale of the input we just edited.
-    this.setState({scale: 'c', temperature});
+    this.setState({ scale: 'c', temperature });
   }
 
   handleFahrenheitChange(temperature) {
-    this.setState({scale: 'f', temperature});
+    this.setState({ scale: 'f', temperature });
   }
 
   //5.React calls the Calculator component’s render method to learn what the UI should look like. 
@@ -3735,15 +3744,15 @@ class SignUpDialog extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
-    this.state = {login: ''};
+    this.state = { login: '' };
   }
 
   render() {
     return (
       <Dialog3 title="Mars Exploration Program"
-              message="How should we refer to you?">
+        message="How should we refer to you?">
         <input value={this.state.login}
-               onChange={this.handleChange} />
+          onChange={this.handleChange} />
         <button onClick={this.handleSignUp}>
           Sign Me Up!
         </button>
@@ -3752,7 +3761,7 @@ class SignUpDialog extends React.Component {
   }
 
   handleChange(e) {
-    this.setState({login: e.target.value});
+    this.setState({ login: e.target.value });
   }
 
   handleSignUp() {
@@ -3879,7 +3888,7 @@ class ProductRow extends React.Component {
     const product = this.props.product;
     const name = product.stocked ?
       product.name :
-      <span style={{color: 'red'}}>
+      <span style={{ color: 'red' }}>
         {product.name}
       </span>;
 
@@ -3897,7 +3906,7 @@ class ProductTable extends React.Component {
   render() {
     const rows = [];
     let lastCategory = null;
-    
+
     this.props.products.forEach((product) => {
       if (product.category !== lastCategory) {
         rows.push(
@@ -3958,14 +3967,14 @@ class FilterableProductTable extends React.Component {
 
 //data
 const PRODUCTS = [
-  {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
-  {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
-  {category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
-  {category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
-  {category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
-  {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
+  { category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football' },
+  { category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball' },
+  { category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball' },
+  { category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch' },
+  { category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5' },
+  { category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7' }
 ];
- 
+
 const root41 = ReactDOM.createRoot(document.getElementById('container'));
 root41.render(<FilterableProductTable products={PRODUCTS} />);
 
@@ -4107,7 +4116,7 @@ class ProductRow2 extends React.Component {
     const product = this.props.product;
     const name = product.stocked ?
       product.name :
-      <span style={{color: 'red'}}>
+      <span style={{ color: 'red' }}>
         {product.name}
       </span>;
 
@@ -4216,12 +4225,12 @@ class FilterableProductTable2 extends React.Component {
 
 
 const PRODUCTS2 = [
-  {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
-  {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
-  {category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
-  {category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
-  {category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
-  {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
+  { category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football' },
+  { category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball' },
+  { category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball' },
+  { category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch' },
+  { category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5' },
+  { category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7' }
 ];
 
 const root42 = ReactDOM.createRoot(document.getElementById('container2'));
@@ -4270,7 +4279,7 @@ class ProductRow3 extends React.Component {
     const product = this.props.product;
     const name = product.stocked ?
       product.name :
-      <span style={{color: 'red'}}>
+      <span style={{ color: 'red' }}>
         {product.name}
       </span>;
 
@@ -4334,15 +4343,15 @@ class SearchBar3 extends React.Component {
     this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
     this.handleInStockChange = this.handleInStockChange.bind(this);
   }
-  
+
   handleFilterTextChange(e) {
     this.props.onFilterTextChange(e.target.value);
   }
-  
+
   handleInStockChange(e) {
     this.props.onInStockChange(e.target.checked);
   }
-  
+
   render() {
     return (
       <form>
@@ -4373,7 +4382,7 @@ class FilterableProductTable3 extends React.Component {
       filterText: '',
       inStockOnly: false
     };
-    
+
     this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
     this.handleInStockChange = this.handleInStockChange.bind(this);
   }
@@ -4383,7 +4392,7 @@ class FilterableProductTable3 extends React.Component {
       filterText: filterText
     });
   }
-  
+
   handleInStockChange(inStockOnly) {
     this.setState({
       inStockOnly: inStockOnly
@@ -4411,12 +4420,12 @@ class FilterableProductTable3 extends React.Component {
 
 
 const PRODUCTS3 = [
-  {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
-  {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
-  {category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
-  {category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
-  {category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
-  {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
+  { category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football' },
+  { category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball' },
+  { category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball' },
+  { category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch' },
+  { category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5' },
+  { category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7' }
 ];
 
 const root43 = ReactDOM.createRoot(document.getElementById('container3'));
