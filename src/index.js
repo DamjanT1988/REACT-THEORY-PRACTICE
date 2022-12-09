@@ -859,6 +859,7 @@ To implement this, we need to add “state” to the Clock component.
 State is similar to props, but it is private and fully controlled by the component.
 */
 
+
 //EXAMPLE WITH PROPS
 const root14 = ReactDOM.createRoot(document.getElementById('root14'));
 
@@ -872,12 +873,12 @@ function tick2() {
   root14.render(element12);
 }
 
-
 setInterval(tick2, 1000);
 
 //ENCAPSULATE
 const root15 = ReactDOM.createRoot(document.getElementById('root15'));
 
+//fuunction component
 function Clock(props) {
   return (
     <div>
@@ -887,22 +888,24 @@ function Clock(props) {
   );
 }
 
+//render passes prop to Clock as single object
 function tick3() {
   root15.render(<Clock date={new Date()} />);
 }
 
 setInterval(tick3, 1000);
 
+
 //CONVERTING A FUNCTION TO CLASS
 
 /*
 You can convert a function component like Clock to a class in five steps:
 
-    Create an ES6 class, with the same name, that extends React.Component.
-    Add a single empty method to it called render().
-    Move the body of the function into the render() method.
-    Replace props with this.props in the render() body.
-    Delete the remaining empty function declaration.
+    1.Create an ES6 class, with the same name, that extends React.Component.
+    2.Add a single empty method to it called render().
+    3.Move the body of the function into the render() method.
+    4.Replace props with this.props in the render() body.
+    5.Delete the remaining empty function declaration.
 
 class Clock extends React.Component {
   render() {
@@ -921,7 +924,9 @@ Clock is now defined as a class rather than a function.
 
 The render method will be called each time an update happens, but as long as we render 
 <Clock /> into the same DOM node, only a single instance of the Clock class will be used. 
-This lets us use additional features such as local state and lifecycle methods.
+!!!!!!!!!
+This lets us use additional features such as local state and lifecycle methods.!!!!!!!!!!!!!
+!!!!!!!!!
 */
 
 const root16 = ReactDOM.createRoot(document.getElementById('root16'));
@@ -931,7 +936,7 @@ class Clock2 extends React.Component {
     return (
       <div>
         <h1>Hello, world!</h1>
-        <h2>It is {this.props.date.toLocaleTimeString()}!!!!!</h2>
+        <h2>It is {this.props.date.toLocaleTimeString()}!!!!!--------------------------------------</h2>
       </div>
     );
   }
@@ -943,30 +948,32 @@ function tick4() {
 
 setInterval(tick4, 1000);
 
+
 //ADDING LOCAL STATE TO A CLASS
 
 /*
 We will move the date from props to state in three steps:
 
-    Replace this.props.date with this.state.date in the render() method:
+  1.  Replace this.props.date with ---this.state.date--- in the render() method:
 
 class Clock extends React.Component {
   render() {
     return (
       <div>
         <h1>Hello, world!</h1>
-        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>      
+        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>      //!!!!
       </div>
     );
   }
 }
 
-    Add a class constructor that assigns the initial this.state:
+  2.  Add a class ---constructor--- that assigns the initial this.state:
 
 class Clock extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {date: new Date()};  }
+  constructor(props) {                      //!!!!
+    super(props);                           //!!!!
+    this.state = {date: new Date()};        //!!!!
+  }
 
   render() {
     return (
@@ -981,16 +988,17 @@ class Clock extends React.Component {
 Note how we pass props to the base constructor:
 
   constructor(props) {
-    super(props);    this.state = {date: new Date()};
+    super(props);    
+    this.state = {date: new Date()};
   }
 
 Class components should always call the base constructor with props.
 
-    Remove the date prop from the <Clock /> element:
+  3.  Remove the date prop from the <Clock /> element:
 
 root.render(<Clock />);
 
-We will later add the timer code back to the component itself.
+  (4.)We will later add the timer code back to the component itself.
 
 The result looks like this:
 
@@ -1014,7 +1022,7 @@ Try it on CodePen
 Next, we’ll make the Clock set up its own timer and update itself every second.
 */
 
-//1
+//0
 class Clock4 extends React.Component {
   //2
   constructor(props) {
@@ -1033,21 +1041,26 @@ class Clock4 extends React.Component {
   }
 }
 
-//3
+
 const root17 = ReactDOM.createRoot(document.getElementById('root17'));
+//3
 root17.render(<Clock4 />);
 
 
 //ADDING LIFECYCLE METHODS TO A CLASS
 
 /*
-In applications with many components, it’s very important to free up resources taken by the components when they are destroyed.
+In applications with many components, it’s very important to free up resources taken by the 
+components when they are destroyed.
 
-We want to set up a timer whenever the Clock is rendered to the DOM for the first time. This is called “mounting” in React.
+We want to set up a timer whenever the Clock is rendered to the DOM for the first time. 
+This is called “mounting” in React.
 
-We also want to clear that timer whenever the DOM produced by the Clock is removed. This is called “unmounting” in React.
+We also want to clear that timer whenever the DOM produced by the Clock is removed. This 
+is called “unmounting” in React.
 
-We can declare special methods on the component class to run some code when a component mounts and unmounts:
+We can declare special methods on the component class to run some code when a component 
+mounts and unmounts:
 
 class Clock extends React.Component {
   constructor(props) {
@@ -1055,8 +1068,9 @@ class Clock extends React.Component {
     this.state = {date: new Date()};
   }
 
-  componentDidMount() {  }
-  componentWillUnmount() {  }
+  componentDidMount() {  }        //!!!!
+  componentWillUnmount() {  }     //!!!!
+
   render() {
     return (
       <div>
@@ -1069,11 +1083,15 @@ class Clock extends React.Component {
 
 These methods are called “lifecycle methods”.
 
-The componentDidMount() method runs after the component output has been rendered to the DOM. 
+The componentDidMount() method runs AFTER the component output has been rendered to the DOM. 
 This is a good place to set up a timer:
 
   componentDidMount() {
-    this.timerID = setInterval(      () => this.tick(),      1000    );  }
+    this.timerID = setInterval(      
+      () => this.tick(),      
+      1000    
+      );  
+    }
 
 Note how we save the timer ID right on this (this.timerID).
 
@@ -1089,7 +1107,7 @@ We will tear down the timer in the componentWillUnmount() lifecycle method:
 Finally, we will implement a method called tick() that the Clock component will run every 
 second.
 
-It will use this.setState() to schedule updates to the component local state:
+It will use this.setState() to schedule updates to the component ---local state---:
 
 class Clock extends React.Component {
   constructor(props) {
@@ -1104,11 +1122,16 @@ class Clock extends React.Component {
     );
   }
 
+  tick() {    
+    this.setState({      
+      date: new Date()    
+    });  
+  }
+
   componentWillUnmount() {
     clearInterval(this.timerID);
   }
 
-  tick() {    this.setState({      date: new Date()    });  }
   render() {
     return (
       <div>
@@ -1149,18 +1172,17 @@ Let’s quickly recap what’s going on and the order in which the methods are c
     
    5 If the Clock component is ever removed from the DOM, React calls the 
    componentWillUnmount() lifecycle method so the timer is stopped.
-
 */
 
-//1
+//0
 class Clock5 extends React.Component {
-  //2
+  //3 - STEP 1
   constructor(props) {
     super(props);
     this.state = { date: new Date() };
   }
 
-  //4
+  //4 - STEP 3
   componentDidMount() {
     this.timerID = setInterval(
       () => this.tick5(),
@@ -1168,19 +1190,19 @@ class Clock5 extends React.Component {
     );
   }
 
-  //5
+  //6 - STEP 5
   componentWillUnmount() {
     clearInterval(this.timerID);
   }
 
-  //6
+  //5 - STEP 4
   tick5() {
     this.setState({
       date: new Date()
     });
   }
 
-  //1
+  //2 - STEP 2
   render() {
     return (
       <div>
@@ -1191,8 +1213,9 @@ class Clock5 extends React.Component {
   }
 }
 
-//3
+
 const root18 = ReactDOM.createRoot(document.getElementById('root18'));
+//1 - STEP 1
 root18.render(<Clock5 />);
 
 
@@ -1200,8 +1223,9 @@ root18.render(<Clock5 />);
 //USING STATE CORRECTLY
 
 /*
-There are three things you should know about setState().
-Do Not Modify State Directly
+There are three things you should know about ---setState()---.
+
+---1. Do Not Modify State Directly
 
 For example, this will not re-render a component:
 
@@ -1213,8 +1237,9 @@ Instead, use setState():
 // Correct
 this.setState({comment: 'Hello'});
 
-The only place where you can assign this.state is the constructor.
-State Updates May Be Asynchronous
+The only place where you can assign this.state is the constructor!!!!!
+
+---2. State Updates May Be Asynchronous
 
 React may batch multiple setState() calls into a single update for performance.
 
@@ -1246,7 +1271,7 @@ this.setState(function(state, props) {
   };
 });
 
-State Updates are Merged
+---3. State Updates are Merged
 
 When you call setState(), React merges the object you provide into the current state.
 
@@ -1255,7 +1280,9 @@ For example, your state may contain several independent variables:
   constructor(props) {
     super(props);
     this.state = {
-      posts: [],      comments: []    };
+      posts: [],      
+      comments: []    
+    };
   }
 
 Then you can update them independently with separate setState() calls:
@@ -1263,12 +1290,14 @@ Then you can update them independently with separate setState() calls:
   componentDidMount() {
     fetchPosts().then(response => {
       this.setState({
-        posts: response.posts      });
+        posts: response.posts      
+      });
     });
 
     fetchComments().then(response => {
       this.setState({
-        comments: response.comments      });
+        comments: response.comments      
+      });
     });
   }
 
@@ -1276,7 +1305,9 @@ The merging is shallow, so this.setState({comments}) leaves this.state.posts int
 completely replaces this.state.comments.
 */
 
-//DO NOT MODIFY STATE DIRECTLY
+//SUMMARY
+
+//---1. DO NOT MODIFY STATE DIRECTLY
 /*
 // Wrong
 this.state.comment = 'Hello';
@@ -1285,14 +1316,14 @@ this.state.comment = 'Hello';
 this.setState({comment: 'Hello'});
 */
 
-//STATE UPDATES MAY BE ASYNCHRONOUS
+//---2. STATE UPDATES MAY BE ASYNCHRONOUS
 /*
 // Wrong
 this.setState({
   counter: this.state.counter + this.props.increment,
 });
 
-// Correct
+// Correct (arrow key)
 this.setState((state, props) => ({
   counter: state.counter + props.increment
 }));
@@ -1305,23 +1336,27 @@ this.setState(function(state, props) {
 });
 */
 
-//STATES UPDATES ARE MERGED
+//---3. STATES UPDATES ARE MERGED
 /*
   constructor(props) {
     super(props);
     this.state = {
-      posts: [],      comments: []    };
+      posts: [],      
+      comments: []    
+    };
   }
 
   componentDidMount() {
     fetchPosts().then(response => {
       this.setState({
-        posts: response.posts      });
+        posts: response.posts      
+      });
     });
 
     fetchComments().then(response => {
       this.setState({
-        comments: response.comments      });
+        comments: response.comments      
+      });
     });
   }
 */
