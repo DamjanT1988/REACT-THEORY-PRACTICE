@@ -1424,35 +1424,35 @@ function FormattedDate(props) {
 }*/
 
 
-//4
+//4 get date object; return JSX
 function FormattedDate(props) {
   return <h2>It is {props.date.toLocaleTimeString()}.8888888888888-----------------------------------------</h2>;
 }
 
 class Clock10 extends React.Component {
-  //2
+  //2 run constructor upon call; initiate date object
   constructor(props) {
     super(props);
     this.state = { date: new Date() };
   }
-  //5
+  //5 automatic start when component call: call tick function
   componentDidMount() {
     this.timerID = setInterval(
       () => this.tick(),
       1000
     );
   }
-  //6
+  //6 set a new date object, with new stte
   tick() {
     this.setState({
       date: new Date()
     });
   }
-  //7
+  //7 remove when component is not used
   componentWillUnmount() {
     clearInterval(this.timerID);
   }
-  //3
+  //3 check render; call dare function by props; pass date object state
   render() {
     return (
       <div>
@@ -1464,10 +1464,10 @@ class Clock10 extends React.Component {
 }
 
 const root19 = ReactDOM.createRoot(document.getElementById('root19'));
-//1
+//1 call the Clock component/class
 root19.render(<Clock10 />);
 
-//
+///////////////////////
 
 function FormattedDate2(props) {
   return <h2>It is {props.date.toLocaleTimeString()}mmmmmmmmmmmmmmmmmmm</h2>;
@@ -1556,7 +1556,8 @@ In React, this could instead be:
 
 function Form() {
   function handleSubmit(e) {
-    e.preventDefault();    console.log('You clicked submit.');
+    e.preventDefault();    
+    console.log('You clicked submit.');
   }
 
   return (
@@ -1573,6 +1574,7 @@ same as native events. See the SyntheticEvent reference guide to learn more.
 When using React, you generally don’t need to call addEventListener to add listeners to a DOM 
 element after it is created. Instead, just provide a listener when the element is initially 
 rendered.
+
 
 When you define a component using an ES6 class, a common pattern is for an event handler to be 
 a method on the class. For example, this Toggle component renders a button that lets the user 
@@ -1594,7 +1596,7 @@ class Toggle extends React.Component {
   }
   render() {
     return (
-      <button onClick={this.handleClick}>        
+      <button onClick={this.handleClick}>     //have to bind, in callback, by this, no ()     
       {this.state.isToggleOn ? 'ON' : 'OFF'}
       </button>
     );
@@ -1654,23 +1656,24 @@ the constructor or using the class fields syntax, to avoid this sort of performa
 */
 
 class Toggle extends React.Component {
+  //2
   constructor(props) {
     super(props);
     this.state = { isToggleOn: true };
 
-    // This binding is necessary to make `this` work in the callback
+    //3 This binding is necessary to make `this` work in the callback
     this.handleClick = this.handleClick.bind(this);
   }
-
+  //5
   handleClick() {
     this.setState(prevState => ({
       isToggleOn: !prevState.isToggleOn
     }));
   }
-
+  //4
   render() {
-    return (
-      <button onClick={this.handleClick}>
+    return (                //callback
+      <button onClick={this.handleClick}> 
         {this.state.isToggleOn ? 'ON' : 'OFF'}
       </button>
     );
@@ -1678,6 +1681,7 @@ class Toggle extends React.Component {
 }
 
 const root21 = ReactDOM.createRoot(document.getElementById('root21'));
+//1
 root21.render(<Toggle />);
 
 //PASSING ARGUMENTS TO EVENT HANDLERS
@@ -1686,8 +1690,13 @@ root21.render(<Toggle />);
 Inside a loop, it is common to want to pass an extra parameter to an event handler. For example, 
 if id is the row ID, either of the following would work:
 
-<button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>
-<button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>
+<button onClick={(e) => this.deleteRow(id, e)}>
+Delete Row
+</button>
+
+<button onClick={this.deleteRow.bind(this, id)}>
+Delete Row
+</button>
 
 The above two lines are equivalent, and use arrow functions and Function.prototype.bind respectively.
 
@@ -1725,7 +1734,11 @@ a user is logged in:
 
 function Greeting(props) {
   const isLoggedIn = props.isLoggedIn;
-  if (isLoggedIn) {    return <UserGreeting />;  }  return <GuestGreeting />;}
+  if (isLoggedIn) {    
+    return <UserGreeting />;  
+  }  
+  return <GuestGreeting />;}
+
 const root = ReactDOM.createRoot(document.getElementById('root')); 
 // Try changing to isLoggedIn={true}:
 root.render(<Greeting isLoggedIn={false} />);
@@ -1735,14 +1748,15 @@ Try it on CodePen
 This example renders a different greeting depending on the value of isLoggedIn prop.
 */
 
+//3-?
 function UserGreeting(props) {
   return <h1>Welcome back!</h1>;
 }
-
+//3-?
 function GuestGreeting(props) {
   return <h1>Please sign up.</h1>;
 }
-
+//2
 function Greeting(props) {
   const isLoggedIn = props.isLoggedIn;
   if (isLoggedIn) {
@@ -1752,7 +1766,7 @@ function Greeting(props) {
 }
 
 const root22 = ReactDOM.createRoot(document.getElementById('root22'));
-// Try changing to isLoggedIn={true}:
+//1 Try changing to isLoggedIn={true}:
 root22.render(<Greeting isLoggedIn={false} />);
 
 
@@ -1829,6 +1843,7 @@ conditions in JSX, explained below.
 */
 
 class LoginControl extends React.Component {
+  //2
   constructor(props) {
     super(props);
     this.handleLoginClick = this.handleLoginClick.bind(this);
@@ -1836,24 +1851,25 @@ class LoginControl extends React.Component {
     this.state = { isLoggedIn: false };
   }
 
+  //4-?
   handleLoginClick() {
     this.setState({ isLoggedIn: true });
   }
-
+  //4-?
   handleLogoutClick() {
     this.setState({ isLoggedIn: false });
   }
-
+  //3
   render() {
     const isLoggedIn = this.state.isLoggedIn;
     let button;
-
+    //3-1
     if (isLoggedIn) {
       button = <LogoutButton onClick={this.handleLogoutClick} />;
     } else {
       button = <LoginButton onClick={this.handleLoginClick} />;
     }
-
+    //6
     return (
       <div>
         <Greeting2 isLoggedIn={isLoggedIn} />
@@ -1862,15 +1878,15 @@ class LoginControl extends React.Component {
     );
   }
 }
-
+//8-?
 function UserGreeting2(props) {
   return <h1>Welcome back!</h1>;
 }
-
+//8-?
 function GuestGreeting2(props) {
   return <h1>Please sign up.</h1>;
 }
-
+//7
 function Greeting2(props) {
   const isLoggedIn = props.isLoggedIn;
   if (isLoggedIn) {
@@ -1878,7 +1894,7 @@ function Greeting2(props) {
   }
   return <GuestGreeting2 />;
 }
-
+//5-?
 function LoginButton(props) {
   return (
     <button onClick={props.onClick}>
@@ -1886,7 +1902,7 @@ function LoginButton(props) {
     </button>
   );
 }
-
+//5-?
 function LogoutButton(props) {
   return (
     <button onClick={props.onClick}>
@@ -1896,6 +1912,7 @@ function LogoutButton(props) {
 }
 
 const root23 = ReactDOM.createRoot(document.getElementById('root23'));
+//1
 root23.render(<LoginControl />);
 
 
@@ -1946,7 +1963,9 @@ In the example below, the <WarningBanner /> is rendered depending on the value o
 warn. If the value of the prop is false, then the component does not render:
 
 function WarningBanner(props) {
-  if (!props.warn) {    return null;  }
+  if (!props.warn) {    
+    return null;  
+  }
   return (
     <div className="warning">
       Warning!
@@ -1988,6 +2007,7 @@ Returning null from a component’s render method does not affect the firing of 
 lifecycle methods. For instance componentDidUpdate will still be called.
 */
 
+//4
 function WarningBanner(props) {
   if (!props.warn) {
     return null;
@@ -2001,6 +2021,7 @@ function WarningBanner(props) {
 }
 
 class Page extends React.Component {
+  //2
   constructor(props) {
     super(props);
     this.state = { showWarning: true }
@@ -2012,8 +2033,9 @@ class Page extends React.Component {
       showWarning: !prevState.showWarning
     }));
   }
-
+  //3
   render() {
+    //5
     return (
       <div>
         <WarningBanner warn={this.state.showWarning} />
@@ -2026,6 +2048,7 @@ class Page extends React.Component {
 }
 
 const root24 = ReactDOM.createRoot(document.getElementById('root24'));
+//11
 root24.render(<Page />);
 
 
@@ -2041,7 +2064,8 @@ Given the code below, we use the map() function to take an array of numbers and 
 values. We assign the new array returned by map() to the variable doubled and log it:
 
 const numbers = [1, 2, 3, 4, 5];
-const doubled = numbers.map((number) => number * 2);console.log(doubled);
+const doubled = numbers.map((number) => number * 2);
+console.log(doubled);
 
 This code logs [2, 4, 6, 8, 10] to the console.
 
