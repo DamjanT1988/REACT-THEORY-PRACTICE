@@ -4467,6 +4467,7 @@ class SearchBar3 extends React.Component {
   //4-1 run constructor
   constructor(props) {
     super(props);
+
     //4-2 set bindings
     this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
     this.handleInStockChange = this.handleInStockChange.bind(this);
@@ -4482,7 +4483,7 @@ class SearchBar3 extends React.Component {
     this.props.onInStockChange(e.target.checked);
   }
 
-  //5-1 run render; return JSX for DOM rendering; use passes props values
+  //5-1 run render; return JSX for DOM rendering; set event listener
   render() {
     return (
       <form>
@@ -4510,24 +4511,25 @@ class FilterableProductTable3 extends React.Component {
   //2-1 run constructor
   constructor(props) {
     super(props);
-    this.state = {        //set initial state (values)
+    //2-2 set initial state (values)
+    this.state = {        
       filterText: '',     //empty search field
       inStockOnly: false  //not-checked box
     };
 
-    //2-2 bind the methods for state change
+    //2-3 bind the methods for state change
     this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
     this.handleInStockChange = this.handleInStockChange.bind(this);
   }
 
-  //3-2 set state (state owner)
+  //5-4 set state (state owner)
   handleFilterTextChange(filterText) {
     this.setState({
       filterText: filterText
     });
   }
 
-  //3-3 set state (state owner)
+  //5-5 set state (state owner)
   handleInStockChange(inStockOnly) {
     this.setState({
       inStockOnly: inStockOnly
@@ -4565,5 +4567,5 @@ const PRODUCTS3 = [
 ];
 
 const root43 = ReactDOM.createRoot(document.getElementById('container3'));
-//1-1 call render with top component + prop JSON data
+//1-1 call render with top component + pass prop JSON data
 root43.render(<FilterableProductTable3 products={PRODUCTS3} />);
