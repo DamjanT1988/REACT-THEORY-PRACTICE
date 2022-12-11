@@ -4377,6 +4377,7 @@ class ProductCategoryRow3 extends React.Component {
   render() {
     //8-2 get passed prop for category
     const category = this.props.category;
+    //8-3 return JSX with category data
     return (
       <tr>
         <th colSpan="2">
@@ -4426,20 +4427,22 @@ class ProductTable3 extends React.Component {
       if (product.name.indexOf(filterText) === -1) {
         return;
       }
-      //7-3 check if exists any producta
+      //7-3 check if exists any product
       if (inStockOnly && !product.stocked) {
         return;
       }
       //7-4 if category exist or is not the same as already written
       if (product.category !== lastCategory) {
-        rows.push( //7-5 call and pass prop
+        rows.push( 
+          //7-5 call and pass prop
           <ProductCategoryRow3
             category={product.category}
             key={product.category} />
         );
       }
-      //7-6 write products
-      rows.push( //7-7 call and pass props
+      //7-6 write products in row
+      rows.push( 
+        //7-7 call component and pass props
         <ProductRow3
           product={product}
           key={product.name}
