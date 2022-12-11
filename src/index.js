@@ -4452,6 +4452,7 @@ class ProductTable3 extends React.Component {
       lastCategory = product.category;
     });
 
+    //7-9 return JSX to DOM render in parent component
     return (
       <table>
         <thead>
