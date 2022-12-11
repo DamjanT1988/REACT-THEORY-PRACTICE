@@ -4412,7 +4412,7 @@ class ProductRow3 extends React.Component {
 class ProductTable3 extends React.Component {
   //6-1 render the product table
   render() {
-    //6-2 use passed props values from owner component
+    //6-2 use passed props values from owner component; defined in Search component
     const filterText = this.props.filterText;
     const inStockOnly = this.props.inStockOnly;
 
@@ -4473,12 +4473,12 @@ class SearchBar3 extends React.Component {
     this.handleInStockChange = this.handleInStockChange.bind(this);
   }
 
-  //5-2
+  //5-2 pass change to parent
   handleFilterTextChange(e) {
     this.props.onFilterTextChange(e.target.value);
   }
 
-  //5-3
+  //5-3 pass change to parent
   handleInStockChange(e) {
     this.props.onInStockChange(e.target.checked);
   }
