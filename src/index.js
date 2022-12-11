@@ -4371,8 +4371,11 @@ the state should be updated. We can use the onChange event on the inputs to be n
 The callbacks passed by FilterableProductTable will call setState(), and the app will be updated.
 */
 
+
 class ProductCategoryRow3 extends React.Component {
+  //8-1 render product category in JSX to DOM
   render() {
+    //8-2 get passed prop for category
     const category = this.props.category;
     return (
       <tr>
@@ -4385,14 +4388,18 @@ class ProductCategoryRow3 extends React.Component {
 }
 
 class ProductRow3 extends React.Component {
+  //9-1 render rows of each product in JSX to DOM
   render() {
+    //9-2 get passed props
     const product = this.props.product;
+    //9-3 check if in stock; if not, render in red
     const name = product.stocked ?
       product.name :
       <span style={{ color: 'red' }}>
         {product.name}
       </span>;
 
+    //10 return JSX to DOM
     return (
       <tr>
         <td>{name}</td>
@@ -4403,33 +4410,42 @@ class ProductRow3 extends React.Component {
 }
 
 class ProductTable3 extends React.Component {
+  //6-1 render the product table
   render() {
+    //6-2 use passed props values from owner component
     const filterText = this.props.filterText;
     const inStockOnly = this.props.inStockOnly;
 
+    //6-3 empty rows and categories
     const rows = [];
     let lastCategory = null;
 
+    //7-1 loop throuch every JSON object
     this.props.products.forEach((product) => {
+      //7-2 check if no objects in arrary
       if (product.name.indexOf(filterText) === -1) {
         return;
       }
+      //7-3 check if exists any producta
       if (inStockOnly && !product.stocked) {
         return;
       }
+      //7-4 if category exist or is not the same as already written
       if (product.category !== lastCategory) {
-        rows.push(
+        rows.push( //7-5 call and pass prop
           <ProductCategoryRow3
             category={product.category}
             key={product.category} />
         );
       }
-      rows.push(
+      //7-6 write products
+      rows.push( //7-7 call and pass props
         <ProductRow3
           product={product}
           key={product.name}
         />
       );
+      //7-8 store written category as last, so it does not write again
       lastCategory = product.category;
     });
 
@@ -4466,7 +4482,7 @@ class SearchBar3 extends React.Component {
     this.props.onInStockChange(e.target.checked);
   }
 
-  //5-1 run render; return JSX for DOM rendering
+  //5-1 run render; return JSX for DOM rendering; use passes props values
   render() {
     return (
       <form>
