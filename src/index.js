@@ -3908,7 +3908,7 @@ data table using React.
 /*
 Imagine that we already have a JSON API and a mock from our designer. The mock looks like this:
 
-Mockup
+***Mockup
 
 Our JSON API returns some data that looks like this:
 
@@ -3930,17 +3930,19 @@ the mock and give them all names. If you’re working with a designer, they may 
 this, so go talk to them! Their Photoshop layer names may end up being the names of your React 
 components!
 
-But how do you know what should be its own component? Use the same techniques for deciding if you 
-should create a new function or object. One such technique is the single responsibility principle, 
+1. outline every component in the mock
+
+But how do you know what should be its own component???? Use the same techniques for deciding if you 
+should create a new function or object. One such technique is the --"single responsibility principle"--, 
 that is, a component should ideally only do one thing. If it ends up growing, it should be decomposed 
 into smaller subcomponents.
 
 Since you’re often displaying a JSON data model to a user, you’ll find that if your model was built 
 correctly, your UI (and therefore your component structure) will map nicely. That’s because UI and 
-data models tend to adhere to the same information architecture. Separate your UI into components, 
+data models tend to adhere to the same information architecture!!!!!! Separate your UI into components, 
 where each component matches one piece of your data model.
 
-Diagram showing nesting of components
+***Diagram showing nesting of components
 
 You’ll see here that we have five components in our app. We’ve italicized the data each component 
 represents. The numbers in the image correspond to the numbers below.
@@ -3969,7 +3971,7 @@ hierarchy:
             -ProductRow
 */
 
-//child to ProductTabe
+//5 child to ProductTabe
 class ProductCategoryRow extends React.Component {
   render() {
     const category = this.props.category;
@@ -3983,7 +3985,7 @@ class ProductCategoryRow extends React.Component {
   }
 }
 
-//child to ProductTabe
+//6 child to ProductTabe
 class ProductRow extends React.Component {
   render() {
     const product = this.props.product;
@@ -4002,7 +4004,7 @@ class ProductRow extends React.Component {
   }
 }
 
-//child to top
+//4 child to top
 class ProductTable extends React.Component {
   render() {
     const rows = [];
@@ -4038,7 +4040,7 @@ class ProductTable extends React.Component {
   }
 }
 
-//child to top
+//3 child to top
 class SearchBar extends React.Component {
   render() {
     return (
@@ -4054,7 +4056,7 @@ class SearchBar extends React.Component {
   }
 }
 
-//top component
+//2 top component
 class FilterableProductTable extends React.Component {
   render() {
     return (
@@ -4066,7 +4068,7 @@ class FilterableProductTable extends React.Component {
   }
 }
 
-//data
+//1-2 data
 const PRODUCTS = [
   { category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football' },
   { category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball' },
@@ -4077,11 +4079,12 @@ const PRODUCTS = [
 ];
 
 const root41 = ReactDOM.createRoot(document.getElementById('container'));
+//1-1
 root41.render(<FilterableProductTable products={PRODUCTS} />);
 
 
 
-//STEP 2_ BUILD A STATIC VERSION IN REACT
+//STEP 2: BUILD A STATIC VERSION IN REACT
 
 /*
 See the Pen Thinking In React: Step 2 on CodePen.
@@ -4119,6 +4122,7 @@ is. See also FAQ: What is the difference between state and props?
 */
 
 
+
 //STEP 3: IDENTIFY THE MINIMAL --BUT COMPLETE-- REPRESENTATION OF UI STATE
 
 /*
@@ -4126,7 +4130,7 @@ To make your UI interactive, you need to be able to trigger changes to your unde
 React achieves this with state.
 
 To build your app correctly, you first need to think of the minimal set of mutable state that your 
-app needs. The key here is DRY: Don’t Repeat Yourself. Figure out the absolute minimal representation 
+app needs!!!! The key here is DRY: Don’t Repeat Yourself!!!!!!! Figure out the absolute minimal representation 
 of the state your application needs and compute everything else you need on-demand. For example, if 
 you’re building a TODO list, keep an array of the TODO items around; don’t keep a separate state 
 variable for the count. Instead, when you want to render the TODO count, take the length of the 
@@ -4158,15 +4162,16 @@ So finally, our state is:
 */
 
 
+
 //STEP 4: IDENTIFY WHERE YOUR STATE SHOULD LIVE
 
 /*
 See the Pen Thinking In React: Step 4 on CodePen.
 
 OK, so we’ve identified what the minimal set of app state is. Next, we need to identify which 
-component mutates, or owns, this state.
+component mutates, or owns, this state!!!!!!!!!!!!
 
-Remember: React is all about one-way data flow down the component hierarchy. It may not be 
+Remember: React is all about one-way data flow down the component hierarchy!!!!!!!!!! It may not be 
 immediately clear which component should own what state. This is often the most challenging part 
 for newcomers to understand, so follow these steps to figure it out:
 
@@ -4199,6 +4204,7 @@ app. You’ll see that the data table is updated correctly.
 */
 
 
+//6
 class ProductCategoryRow2 extends React.Component {
   render() {
     const category = this.props.category;
@@ -4211,7 +4217,7 @@ class ProductCategoryRow2 extends React.Component {
     );
   }
 }
-
+//7
 class ProductRow2 extends React.Component {
   render() {
     const product = this.props.product;
@@ -4229,15 +4235,16 @@ class ProductRow2 extends React.Component {
     );
   }
 }
-
+//5
 class ProductTable2 extends React.Component {
   render() {
-    const filterText = this.props.filterText;
-    const inStockOnly = this.props.inStockOnly;
+    const filterText = this.props.filterText;   //''
+    const inStockOnly = this.props.inStockOnly; //false
 
-    const rows = [];
-    let lastCategory = null;
+    const rows = [];                            //no rows
+    let lastCategory = null;                    //no category
 
+    //5-1 loop through all object in JSON data; do for each object
     this.props.products.forEach((product) => {
       if (product.name.indexOf(filterText) === -1) {
         return;
@@ -4274,12 +4281,12 @@ class ProductTable2 extends React.Component {
     );
   }
 }
-
+//4
 class SearchBar2 extends React.Component {
   render() {
-    const filterText = this.props.filterText;
-    const inStockOnly = this.props.inStockOnly;
-
+    const filterText = this.props.filterText;   //props from parent - ''
+    const inStockOnly = this.props.inStockOnly; //props from parent - false
+    //4-1 render with prop data
     return (
       <form>
         <input
@@ -4297,17 +4304,18 @@ class SearchBar2 extends React.Component {
     );
   }
 }
-
+//2
 class FilterableProductTable2 extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = {        //render at start
       filterText: '',
       inStockOnly: false
     };
   }
-
+  //3
   render() {
+    //3-1 ONLY pass props ro components
     return (
       <div>
         <SearchBar2
@@ -4324,7 +4332,7 @@ class FilterableProductTable2 extends React.Component {
   }
 }
 
-
+//1-2
 const PRODUCTS2 = [
   { category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football' },
   { category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball' },
@@ -4335,6 +4343,7 @@ const PRODUCTS2 = [
 ];
 
 const root42 = ReactDOM.createRoot(document.getElementById('container2'));
+//1-1
 root42.render(<FilterableProductTable2 products={PRODUCTS2} />);
 
 
@@ -4439,20 +4448,25 @@ class ProductTable3 extends React.Component {
 }
 
 class SearchBar3 extends React.Component {
+  //4-1 run constructor
   constructor(props) {
     super(props);
+    //4-2 set bindings
     this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
     this.handleInStockChange = this.handleInStockChange.bind(this);
   }
 
+  //5-2
   handleFilterTextChange(e) {
     this.props.onFilterTextChange(e.target.value);
   }
 
+  //5-3
   handleInStockChange(e) {
     this.props.onInStockChange(e.target.checked);
   }
 
+  //5-1 run render; return JSX for DOM rendering
   render() {
     return (
       <form>
@@ -4477,29 +4491,34 @@ class SearchBar3 extends React.Component {
 }
 
 class FilterableProductTable3 extends React.Component {
+  //2-1 run constructor
   constructor(props) {
     super(props);
-    this.state = {
-      filterText: '',
-      inStockOnly: false
+    this.state = {        //set initial state (values)
+      filterText: '',     //empty search field
+      inStockOnly: false  //not-checked box
     };
 
+    //2-2 bind the methods for state change
     this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
     this.handleInStockChange = this.handleInStockChange.bind(this);
   }
 
+  //3-2 set state (state owner)
   handleFilterTextChange(filterText) {
     this.setState({
       filterText: filterText
     });
   }
 
+  //3-3 set state (state owner)
   handleInStockChange(inStockOnly) {
     this.setState({
       inStockOnly: inStockOnly
     })
   }
 
+  //3-1 render component; pass props; first SearchBar3, then ProductTable3
   render() {
     return (
       <div>
@@ -4519,7 +4538,7 @@ class FilterableProductTable3 extends React.Component {
   }
 }
 
-
+//1-2 JSON data 
 const PRODUCTS3 = [
   { category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football' },
   { category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball' },
@@ -4530,4 +4549,5 @@ const PRODUCTS3 = [
 ];
 
 const root43 = ReactDOM.createRoot(document.getElementById('container3'));
+//1-1 call render with top component + prop JSON data
 root43.render(<FilterableProductTable3 products={PRODUCTS3} />);
