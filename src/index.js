@@ -2158,7 +2158,7 @@ function NumberList(props) {
   );
 }
 
-const numbers2 = [1, 2, 3, 4, 5];
+const numbers2 = [9, 8, 5, 2, 5];
 
 const root26 = ReactDOM.createRoot(document.getElementById('root26'));
 root26.render(<NumberList numbers={numbers2} />);
@@ -2172,7 +2172,8 @@ to the elements inside the array to give the elements a stable identity:
 
 const numbers = [1, 2, 3, 4, 5];
 const listItems = numbers.map((number) =>
-  <li key={number.toString()}>    {number}
+  <li key={number.toString()}>    
+  {number}
   </li>
 );
 
@@ -2180,7 +2181,8 @@ The best way to pick a key is to use a string that uniquely identifies a list it
 siblings. Most often you would use IDs from your data as keys:
 
 const todoItems = todos.map((todo) =>
-  <li key={todo.id}>    {todo.text}
+  <li key={todo.id}>    
+  {todo.text}
   </li>
 );
 
@@ -2188,7 +2190,9 @@ When you don’t have stable IDs for rendered items, you may use the item index 
 resort:
 
 const todoItems = todos.map((todo, index) =>
-  // Only do this if items have no stable IDs  <li key={index}>    {todo.text}
+  // Only do this if items have no stable IDs  
+  <li key={index}>    
+  {todo.text}
   </li>
 );
 
@@ -2237,7 +2241,8 @@ function NumberList(props) {
 Example: Correct Key Usage
 
 function ListItem(props) {
-  // Correct! There is no need to specify the key here:  return <li>{props.value}</li>;}
+  // Correct! There is no need to specify the key here:  
+  return <li>{props.value}</li>;}
 
 function NumberList(props) {
   const numbers = props.numbers;
@@ -2259,14 +2264,14 @@ A good rule of thumb is that elements inside the map() call need keys.
 
 function ListItem2(props) {
   // Correct! There is no need to specify the key here:
-  return <li>{props.value}</li>;
+  return <li>{props.value}</li>;          //not here in li
 }
 
 function NumberList2(props) {
   const numbers3 = props.numbers;
   const listItems = numbers3.map((number) =>
     // Correct! Key should be specified inside the array.
-    <ListItem2 key={number.toString()}
+    <ListItem2 key={number.toString()}    //key her
       value={number} />
   );
   return (
@@ -2276,7 +2281,7 @@ function NumberList2(props) {
   );
 }
 
-const numbers3 = [1, 2, 3, 4, 5];
+const numbers3 = [1, 2, 3, 4, 5, 6];
 
 const root27 = ReactDOM.createRoot(document.getElementById('root27'));
 root27.render(<NumberList2 numbers={numbers3} />);
@@ -2337,6 +2342,7 @@ With the example above, the Post component can read props.id, but not props.key.
 */
 
 function Blog(props) {
+  //3
   const sidebar = (
     <ul>
       {props.posts.map((post) =>
@@ -2346,12 +2352,14 @@ function Blog(props) {
       )}
     </ul>
   );
+  //4
   const content = props.posts.map((post) =>
     <div key={post.id}>
       <h3>{post.title}</h3>
       <p>{post.content}</p>
     </div>
   );
+  //2
   return (
     <div>
       {sidebar}
@@ -2360,14 +2368,25 @@ function Blog(props) {
     </div>
   );
 }
-
+//1-1
 const posts = [
   { id: 1, title: 'Hello World', content: 'Welcome to learning React!' },
   { id: 2, title: 'Installation', content: 'You can install React from npm.' }
 ];
 
 const root28 = ReactDOM.createRoot(document.getElementById('root28'));
+//1
 root28.render(<Blog posts={posts} />);
+
+/*
+VUE
+const content = posts.map((post) =>
+  <Post
+    key={post.id}    
+    id={post.id}    
+    title={post.title} />
+);
+*/
 
 
 //EMBEDDING MAP() IN JSX
@@ -2396,7 +2415,7 @@ function NumberList(props) {
     <ul>
       {numbers.map((number) =>        
         <ListItem key={number.toString()}                  
-        value={number} />      
+        value={number} />
         )}    
     </ul>
   );
@@ -2409,12 +2428,14 @@ it is up to you to decide whether it is worth extracting a variable for readabil
 mind that if the map() body is too nested, it might be a good time to extract a component.
 */
 
+//4
 function ListItem3(props) {
   return <li>{props.value}</li>;
 }
-
+//2
 function NumberList3(props) {
   const numbers = props.numbers;
+  //3
   return (
     <ul>
       {numbers.map((number) =>
@@ -2424,10 +2445,11 @@ function NumberList3(props) {
     </ul>
   );
 }
-
-const numbers4 = [1, 2, 3, 4, 5];
+//1-1
+const numbers4 = [9, 9, 7, 7, 1];
 
 const root29 = ReactDOM.createRoot(document.getElementById('root29'));
+//1
 root29.render(<NumberList3 numbers={numbers4} />);
 
 
@@ -2464,8 +2486,11 @@ state and update it based on user input. In React, mutable state is typically ke
 property of components, and only updated with setState().
 
 We can combine the two by making the React state be the “single source of truth”. Then the React 
-component that renders a form also controls what happens in that form on subsequent user input. An 
-input form element whose value is controlled by React in this way is called a “controlled component”.
+component that renders a form also controls what happens in that form on subsequent user input. 
+
+!!!!!!!!
+An input form element whose value is controlled by React in this way is called a “controlled component”.
+!!!!!!!!
 
 For example, if we want to make the previous example log the name when it is submitted, we can 
 write the form as a controlled component:
@@ -2479,7 +2504,8 @@ class NameForm extends React.Component {
   }
 
   handleChange(event) {    
-    this.setState({value: event.target.value});  }
+    this.setState({value: event.target.value});  
+  }
   handleSubmit(event) {
     alert('A name was submitted: ' + this.state.value);
     event.preventDefault();
@@ -2510,6 +2536,7 @@ reset it from other event handlers.
 */
 
 class NameForm extends React.Component {
+  //2
   constructor(props) {
     super(props);
     this.state = { value: '' };
@@ -2517,16 +2544,16 @@ class NameForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
+  //4
   handleChange(event) {
     this.setState({ value: event.target.value });
   }
-
+  //5
   handleSubmit(event) {
     alert('A name was submitted: "' + this.state.value + '"');
     event.preventDefault();
   }
-
+  //3
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
@@ -2541,6 +2568,7 @@ class NameForm extends React.Component {
 }
 
 const root30 = ReactDOM.createRoot(document.getElementById('root30'));
+//1
 root30.render(<NameForm />);
 
 
@@ -2593,25 +2621,29 @@ with some text in it.
 */
 
 class EssayForm extends React.Component {
+  //2
   constructor(props) {
     super(props);
+    //2-1 state already initiated
     this.state = {
-      value: 'Please write an essay about your favorite DOM element.'
+      value: 'Please write an essay about your favorite DOM element.' //placeholder
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
+  //4
   handleChange(event) {
     this.setState({ value: event.target.value });
   }
+  //5
   handleSubmit(event) {
     alert('An essay was submitted: ' + this.state.value);
     event.preventDefault();
   }
-
+  //3
   render() {
     return (
+      //2-2 state
       <form onSubmit={this.handleSubmit}>
         <label>
           Essay:
@@ -2624,6 +2656,7 @@ class EssayForm extends React.Component {
 }
 
 const root31 = ReactDOM.createRoot(document.getElementById('root31'));
+//1
 root31.render(<EssayForm />);
 
 
@@ -2667,7 +2700,7 @@ class FlavorForm extends React.Component {
         <label>
           Pick your favorite flavor:
           <select value={this.state.value} onChange={this.handleChange}>            
-          <option value="grapefruit">Grapefruit</option>
+            <option value="grapefruit">Grapefruit</option>
             <option value="lime">Lime</option>
             <option value="coconut">Coconut</option>
             <option value="mango">Mango</option>
@@ -2692,23 +2725,24 @@ similarly - they all accept a value attribute that you can use to implement a co
 */
 
 class FlavorForm extends React.Component {
+  //2
   constructor(props) {
     super(props);
-    this.state = { value: 'coconut' };
+    this.state = { value: 'coconut' };      //selected already
 
     this.handleChange3 = this.handleChange3.bind(this);
     this.handleSubmit3 = this.handleSubmit3.bind(this);
   }
-
+  //3
   handleChange3(event) {
     this.setState({ value: event.target.value });
   }
-
+  //4
   handleSubmit3(event) {
     alert('Your favorite flavor is: ' + this.state.value);
     event.preventDefault();
   }
-
+  //3
   render() {
     return (
       <form onSubmit={this.handleSubmit3}>
@@ -2728,6 +2762,7 @@ class FlavorForm extends React.Component {
 }
 
 const root32 = ReactDOM.createRoot(document.getElementById('root32'));
+//1
 root32.render(<FlavorForm />);
 
 /*
@@ -2819,16 +2854,17 @@ Also, since setState() automatically merges a partial state into the current sta
 */
 
 class Reservation extends React.Component {
+  //2
   constructor(props) {
     super(props);
     this.state = {
-      isGoing: true,
-      numberOfGuests: 2
+      isGoing: true,              //selected
+      numberOfGuests: 2           //selected
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
   }
-
+  //4
   handleInputChange(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -2838,7 +2874,7 @@ class Reservation extends React.Component {
       [name]: value
     });
   }
-
+  //3
   render() {
     return (
       <form>
@@ -2866,6 +2902,7 @@ class Reservation extends React.Component {
 
 
 const root33 = ReactDOM.createRoot(document.getElementById('root33'));
+//1
 root33.render(<Reservation />);
 
 
@@ -2926,8 +2963,10 @@ prop, and prints whether it is enough to boil the water:
 
 function BoilingVerdict(props) {
   if (props.celsius >= 100) {
-    return <p>The water would boil.</p>;  }
-  return <p>The water would not boil.</p>;}
+    return <p>The water would boil.</p>;  
+  }
+  return <p>The water would not boil.</p>;
+}
 
 Next, we will create a component called Calculator. It renders an <input> that lets you enter 
 the temperature, and keeps its value in this.state.temperature.
@@ -2938,13 +2977,16 @@ class Calculator extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.state = {temperature: ''};  }
+    this.state = {temperature: ''};  
+  }
 
   handleChange(e) {
-    this.setState({temperature: e.target.value});  }
+    this.setState({temperature: e.target.value});  
+  }
 
   render() {
-    const temperature = this.state.temperature;    return (
+    const temperature = this.state.temperature;    
+    return (
       <fieldset>
         <legend>Enter temperature in Celsius:</legend>
         <input          
@@ -2960,6 +3002,7 @@ class Calculator extends React.Component {
 Try it on CodePen
 */
 
+//5
 function BoilingVerdict(props) {
   if (props.celsius >= 100) {
     return <p>The water would boil.</p>;
@@ -2968,22 +3011,24 @@ function BoilingVerdict(props) {
 }
 
 class Calculator extends React.Component {
+  //2
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.state = { temperature: '' };
+    this.state = { temperature: '69' };
   }
-
+  //4
   handleChange(e) {
     this.setState({ temperature: e.target.value });
   }
-
+  //3
   render() {
     const temperature = this.state.temperature;
     return (
       <fieldset>
         <legend>Enter temperature in Celsius:</legend>
         <input
+          type="number"
           value={temperature}
           onChange={this.handleChange} />
         <BoilingVerdict
@@ -2995,6 +3040,7 @@ class Calculator extends React.Component {
 
 
 const root34 = ReactDOM.createRoot(document.getElementById('root34'));
+//1
 root34.render(<Calculator />);
 
 
@@ -3021,7 +3067,8 @@ class TemperatureInput extends React.Component {
 
   render() {
     const temperature = this.state.temperature;
-    const scale = this.props.scale;    return (
+    const scale = this.props.scale;    
+    return (
       <fieldset>
         <legend>Enter temperature in {scaleNames[scale]}:</legend>        
         <input value={temperature}
@@ -3053,22 +3100,24 @@ We also can’t display the BoilingVerdict from Calculator. The Calculator doesn
 current temperature because it is hidden inside the TemperatureInput.
 */
 
+//5
 const scaleNames = {
   c: 'Celsius',
   f: 'Fahrenheit'
 };
 
 class TemperatureInput extends React.Component {
+  //3
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.state = { temperature: '' };
+    this.state = { temperature: 'no update :(' };
   }
-
+  //5
   handleChange(e) {
     this.setState({ temperature: e.target.value });
   }
-
+  //4
   render() {
     const temperature = this.state.temperature;
     const scale = this.props.scale;
@@ -3083,6 +3132,7 @@ class TemperatureInput extends React.Component {
 }
 
 class Calculator2 extends React.Component {
+  //2
   render() {
     return (
       <div>
@@ -3094,6 +3144,7 @@ class Calculator2 extends React.Component {
 }
 
 const root35 = ReactDOM.createRoot(document.getElementById('root35'));
+//1
 root35.render(<Calculator2 />);
 
 
@@ -3152,6 +3203,7 @@ class TemperatureInput extends React.Component {
 However, we want these two inputs to be in sync with each other. When we update the Celsius input, 
 the Fahrenheit input should reflect the converted temperature, and vice versa.
 
+!!!!!!!!!!!
 In React, sharing state is accomplished by moving it up to the closest common ancestor of the 
 components that need it. This is called “lifting state up”. We will remove the local state from 
 the TemperatureInput and move it into the Calculator instead.
@@ -3160,6 +3212,7 @@ If the Calculator owns the shared state, it becomes the “source of truth” fo
 temperature in both inputs. It can instruct them both to have values that are consistent with 
 each other. Since the props of both TemperatureInput components are coming from the same parent 
 Calculator component, the two inputs will always be in sync.
+!!!!!!!!!!!
 
 Let’s see how this works step by step.
 
@@ -3248,7 +3301,9 @@ We could have stored the value of both inputs but it turns out to be unnecessary
 store the value of the most recently changed input, and the scale that it represents. We can then 
 infer the value of the other input based on the current temperature and scale alone.
 
+!!!!!!!!
 The inputs stay in sync because their values are computed from the same state:
+!!!!!!!!
 
 class Calculator extends React.Component {
   constructor(props) {
@@ -3329,19 +3384,20 @@ Let’s recap what happens when you edit an input:
 Every update goes through the same steps so the inputs stay in sync.
 */
 
+//--8
 const scaleNames2 = {
   c: 'Celsius',
   f: 'Fahrenheit'
 };
-
+//--4-2-2
 function toCelsius(fahrenheit) {
   return (fahrenheit - 32) * 5 / 9;
 }
-
+//--4-2-1
 function toFahrenheit(celsius) {
   return (celsius * 9 / 5) + 32;
 }
-
+//--4-1
 function tryConvert(temperature, convert) {
   const input = parseFloat(temperature);
   if (Number.isNaN(input)) {
@@ -3351,7 +3407,7 @@ function tryConvert(temperature, convert) {
   const rounded = Math.round(output * 1000) / 1000;
   return rounded.toString();
 }
-
+//--10
 function BoilingVerdict2(props) {
   if (props.celsius >= 100) {
     return <p>The water would boil.</p>;
@@ -3359,8 +3415,11 @@ function BoilingVerdict2(props) {
   return <p>The water would not boil.</p>;
 }
 
+//*********************
 //CHILD COMPONENT
+//*********************
 class TemperatureInput2 extends React.Component {
+  //--6
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
@@ -3368,13 +3427,14 @@ class TemperatureInput2 extends React.Component {
 
   //1.React calls the function specified as onChange on the DOM <input>. In our case, this is the 
   //handleChange method in the TemperatureInput component.
+  //--9
   handleChange(e) {
     //2.The handleChange method in the TemperatureInput component calls 
     //this.props.onTemperatureChange() with the new desired value. Its props, including 
     //onTemperatureChange, were provided by its parent component, the Calculator.
     this.props.onTemperatureChange(e.target.value);
   }
-
+  //--7
   render() {
     const temperature = this.props.temperature;//1
     const scale = this.props.scale;
@@ -3388,8 +3448,11 @@ class TemperatureInput2 extends React.Component {
   }
 }
 
+//*********************
 //PARENT COMPONENT
+//*********************
 class Calculator3 extends React.Component {
+  //--2
   constructor(props) {
     super(props);
     this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
@@ -3415,15 +3478,17 @@ class Calculator3 extends React.Component {
   //5.React calls the Calculator component’s render method to learn what the UI should look like. 
   //The values of both inputs are recomputed based on the current temperature and the active scale. 
   //The temperature conversion is performed here.
+  //--3
   render() {
-    const scale = this.state.scale;//ALWAYS UPDATED
-    const temperature = this.state.temperature;//ALWAYS UPDATED
-    const celsius = scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;
-    const fahrenheit = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
+    const scale = this.state.scale;               //ALWAYS UPDATED
+    const temperature = this.state.temperature;   //ALWAYS UPDATED
+    const celsius = scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;       //CONVERRSION
+    const fahrenheit = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature; //CONVERRSION
 
+    //--5
+    return (
     //6.React calls the render methods of the individual TemperatureInput components with their new 
     //props specified by the Calculator. It learns what their UI should look like.
-    return (
       //7.React calls the render method of the BoilingVerdict component, passing the temperature in 
       //Celsius as its props.
       <div>
@@ -3446,32 +3511,36 @@ class Calculator3 extends React.Component {
 //The input we just edited receives its current value, and the other input is updated to the 
 //temperature after conversion.
 const root36 = ReactDOM.createRoot(document.getElementById('root36'));
+//--1
 root36.render(<Calculator3 />);
 
 
 //LESSONS LEARNED
 
 /*
-There should be a single “source of truth” for any data that changes in a React application. 
-Usually, the state is first added to the component that needs it for rendering. Then, if other 
+
+-- There should be a single “source of truth” for any data that changes in a React application. 
+
+-- Usually, the state is first added to the component that needs it for rendering. Then, if other 
 components also need it, you can lift it up to their closest common ancestor. Instead of trying 
 to sync the state between different components, you should rely on the top-down data flow.
 
-Lifting state involves writing more “boilerplate” code than two-way binding approaches, but as a 
-benefit, it takes less work to find and isolate bugs. Since any state “lives” in some component 
-and that component alone can change it, the surface area for bugs is greatly reduced. Additionally, 
-you can implement any custom logic to reject or transform user input.
+-- Lifting state involves writing more “boilerplate” code than two-way binding approaches, but as a 
+benefit, it takes less work to find and isolate bugs. 
 
-If something can be derived from either props or state, it probably shouldn’t be in the state. 
+-- Since any state “lives” in some component and that component alone can change it, the surface 
+area for bugs is greatly reduced. Additionally, you can implement any custom logic to reject or 
+transform user input.
+
+-- If something can be derived from either props or state, it probably shouldn’t be in the state. 
 For example, instead of storing both celsiusValue and fahrenheitValue, we store just the last 
 edited temperature and its scale. The value of the other input can always be calculated from them 
 in the render() method. This lets us clear or apply rounding to the other field without losing 
 any precision in the user input.
 
-When you see something wrong in the UI, you can use React Developer Tools to inspect the props 
+-- When you see something wrong in the UI, you can use React Developer Tools to inspect the props 
 and move up the tree until you find the component responsible for updating the state.
 */
-
 
 
 
@@ -3488,7 +3557,7 @@ inheritance, and show how we can solve them with composition.
 */
 
 
-//CONTAIMENT
+//CONTAINMENT
 
 /*
 Some components don’t know their children ahead of time. This is especially common for components 
@@ -3561,6 +3630,7 @@ like any other data. This approach may remind you of “slots” in other librar
 no limitations on what you can pass as props in React.
 */
 
+//3
 function FancyBorder(props) {
   return (
     <div className={'FancyBorder FancyBorder-' + props.color}>
@@ -3568,7 +3638,7 @@ function FancyBorder(props) {
     </div>
   );
 }
-
+//2
 function WelcomeDialog() {
   return (
     <FancyBorder color="blue">
@@ -3583,19 +3653,20 @@ function WelcomeDialog() {
 }
 
 const root37 = ReactDOM.createRoot(document.getElementById('root37'));
+//1
 root37.render(<WelcomeDialog />);
 
+////////////////////////////////////////////////////////////////////////////////
 
-
-
+//4-2
 function Contacts() {
   return <div className="Contacts" />;
 }
-
+//4-1
 function Chat() {
   return <div className="Chat" />;
 }
-
+//3
 function SplitPane(props) {
   return (
     <div className="SplitPane">
@@ -3608,7 +3679,7 @@ function SplitPane(props) {
     </div>
   );
 }
-
+//2
 function App3() {
   return (
     <SplitPane
@@ -3622,6 +3693,7 @@ function App3() {
 }
 
 const root38 = ReactDOM.createRoot(document.getElementById('root38'));
+//1
 root38.render(<App3 />);
 
 
@@ -3706,6 +3778,7 @@ class SignUpDialog extends React.Component {
 Try it on CodePen
 */
 
+//4
 function FancyBorder2(props) {
   return (
     <div className={'FancyBorder FancyBorder-' + props.color}>
@@ -3713,7 +3786,7 @@ function FancyBorder2(props) {
     </div>
   );
 }
-
+//3
 function Dialog(props) {
   return (
     <FancyBorder2 color="blue">
@@ -3726,7 +3799,7 @@ function Dialog(props) {
     </FancyBorder2>
   );
 }
-
+//2
 function WelcomeDialog2() {
   return (
     <Dialog
@@ -3736,11 +3809,12 @@ function WelcomeDialog2() {
 }
 
 const root39 = ReactDOM.createRoot(document.getElementById('root39'));
+//1
 root39.render(<WelcomeDialog2 />);
 
+///////////////////////////////////////////////////////////////////////////////////////
 
-
-
+//5
 function FancyBorder3(props) {
   return (
     <div className={'FancyBorder FancyBorder-' + props.color}>
@@ -3748,7 +3822,7 @@ function FancyBorder3(props) {
     </div>
   );
 }
-
+//4
 function Dialog3(props) {
   return (
     <FancyBorder3 color="blue">
@@ -3764,16 +3838,18 @@ function Dialog3(props) {
 }
 
 class SignUpDialog extends React.Component {
+  //2
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
-    this.state = { login: '' };
+    this.state = { login: '' };                           //!!!!
   }
-
+  //3
   render() {
     return (
-      <Dialog3 title="Mars Exploration Program"
+      <Dialog3 
+        title="Mars Exploration Program"
         message="How should we refer to you?">
         <input value={this.state.login}
           onChange={this.handleChange} />
@@ -3783,17 +3859,18 @@ class SignUpDialog extends React.Component {
       </Dialog3>
     );
   }
-
+  //6
   handleChange(e) {
-    this.setState({ login: e.target.value });
+    this.setState({ login: e.target.value });             //!!!!
   }
-
+  //7
   handleSignUp() {
-    alert(`Welcome aboard, ${this.state.login}!`);
+    alert(`Welcome aboard, ${this.state.login}!`);        //!!!!
   }
 }
 
 const root40 = ReactDOM.createRoot(document.getElementById('root40'));
+//1
 root40.render(<SignUpDialog />);
 
 
