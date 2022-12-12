@@ -1673,7 +1673,7 @@ class Toggle extends React.Component {
   //4
   render() {
     return (                //callback
-      <button onClick={this.handleClick}> 
+      <button onClick={this.handleClick}>
         {this.state.isToggleOn ? 'ON' : 'OFF'}
       </button>
     );
@@ -3487,8 +3487,8 @@ class Calculator3 extends React.Component {
 
     //--5
     return (
-    //6.React calls the render methods of the individual TemperatureInput components with their new 
-    //props specified by the Calculator. It learns what their UI should look like.
+      //6.React calls the render methods of the individual TemperatureInput components with their new 
+      //props specified by the Calculator. It learns what their UI should look like.
       //7.React calls the render method of the BoilingVerdict component, passing the temperature in 
       //Celsius as its props.
       <div>
@@ -3848,7 +3848,7 @@ class SignUpDialog extends React.Component {
   //3
   render() {
     return (
-      <Dialog3 
+      <Dialog3
         title="Mars Exploration Program"
         message="How should we refer to you?">
         <input value={this.state.login}
@@ -4002,6 +4002,7 @@ will be updated. You can see how your UI is updated and where to make changes. R
 data flow (also called one-way binding) keeps everything modular and fast.
 */
 
+/*
 //5 child to ProductTabe
 class ProductCategoryRow extends React.Component {
   render() {
@@ -4112,7 +4113,7 @@ const PRODUCTS = [
 const root41 = ReactDOM.createRoot(document.getElementById('container'));
 //1-1
 root41.render(<FilterableProductTable products={PRODUCTS} />);
-
+*/
 
 
 //STEP 3: IDENTIFY THE MINIMAL --BUT COMPLETE-- REPRESENTATION OF UI STATE
@@ -4185,16 +4186,18 @@ Let’s run through this strategy for our application:
     -It conceptually makes sense for the filter text and checked value to live in 
     FilterableProductTable
 
-Cool, so we’ve decided that our state lives in FilterableProductTable. First, add an instance 
-property this.state = {filterText: '', inStockOnly: false} to FilterableProductTable’s constructor 
-to reflect the initial state of your application. Then, pass filterText and inStockOnly to 
-ProductTable and SearchBar as a prop. Finally, use these props to filter the rows in ProductTable 
-and set the values of the form fields in SearchBar.
+Cool, so we’ve decided that our state lives in FilterableProductTable.
+
+1. add an instance property this.state = {filterText: '', inStockOnly: false} to FilterableProductTable’s 
+constructor to reflect the initial state of your application. 
+2. pass filterText and inStockOnly to ProductTable and SearchBar as a prop. 
+3. use these props to filter the rows in ProductTable and set the values of the form fields in SearchBar.
 
 You can start seeing how your application will behave: set filterText to "ball" and refresh your 
 app. You’ll see that the data table is updated correctly.
 */
 
+/*
 //6
 class ProductCategoryRow2 extends React.Component {
   render() {
@@ -4336,7 +4339,7 @@ const PRODUCTS2 = [
 const root42 = ReactDOM.createRoot(document.getElementById('container2'));
 //1-1
 root42.render(<FilterableProductTable2 products={PRODUCTS2} />);
-
+*/
 
 
 //STEP 5: ADD INVERSE DATA FLOW
@@ -4363,6 +4366,11 @@ The callbacks passed by FilterableProductTable will call setState(), and the app
 */
 
 
+/*
+1. one-way data flow down the component hiearchy
+2. state flow up the hiearchy (two-way binding)
+*/
+
 class ProductCategoryRow3 extends React.Component {
   //8-1 render product category in JSX to DOM
   render() {
@@ -4370,6 +4378,7 @@ class ProductCategoryRow3 extends React.Component {
     const category = this.props.category;
     //8-3 return JSX with category data
     return (
+      //8-4 create category data
       <tr>
         <th colSpan="2">
           {category}
@@ -4391,8 +4400,9 @@ class ProductRow3 extends React.Component {
         {product.name}
       </span>;
 
-    //10 return JSX to DOM
+    //10-1 return JSX to DOM
     return (
+      //10-2 create name and price data
       <tr>
         <td>{name}</td>
         <td>{product.price}</td>
@@ -4404,7 +4414,7 @@ class ProductRow3 extends React.Component {
 class ProductTable3 extends React.Component {
   //6-1 render the product table
   render() {
-    //6-2 use passed props values from owner component; defined in Search component
+    //6-2 use passed props values from owner component (defined in Search component)
     const filterText = this.props.filterText;
     const inStockOnly = this.props.inStockOnly;
 
@@ -4412,7 +4422,7 @@ class ProductTable3 extends React.Component {
     const rows = [];
     let lastCategory = null;
 
-    //7-1 loop throuch every JSON object
+    //7-1 loop throuch every JSON object (products from parent)
     this.props.products.forEach((product) => {
       //7-2 check if no objects in arrary
       if (product.name.indexOf(filterText) === -1) {
@@ -4422,17 +4432,17 @@ class ProductTable3 extends React.Component {
       if (inStockOnly && !product.stocked) {
         return;
       }
-      //7-4 if category exist or is not the same as already written
+      //7-4 create category - if category exist or is not the same as already written
       if (product.category !== lastCategory) {
-        rows.push( 
+        rows.push(
           //7-5 call and pass prop
           <ProductCategoryRow3
             category={product.category}
             key={product.category} />
         );
       }
-      //7-6 write products in row
-      rows.push( 
+      //7-6 create product row - write products in row
+      rows.push(
         //7-7 call component and pass props
         <ProductRow3
           product={product}
@@ -4445,6 +4455,7 @@ class ProductTable3 extends React.Component {
 
     //7-9 return JSX to DOM render in parent component
     return (
+      //7-10 push rows data
       <table>
         <thead>
           <tr>
@@ -4485,14 +4496,14 @@ class SearchBar3 extends React.Component {
         <input
           type="text"
           placeholder="Search..."
-          value={this.props.filterText}
-          onChange={this.handleFilterTextChange}
+          value={this.props.filterText}           //prop from parent
+          onChange={this.handleFilterTextChange}  //event listener; call method
         />
         <p>
           <input
             type="checkbox"
-            checked={this.props.inStockOnly}
-            onChange={this.handleInStockChange}
+            checked={this.props.inStockOnly}      //prop from parent
+            onChange={this.handleInStockChange}   //event listener; call method
           />
           {' '}
           Only show products in stock
@@ -4507,27 +4518,27 @@ class FilterableProductTable3 extends React.Component {
   constructor(props) {
     super(props);
     //2-2 set initial state (values)
-    this.state = {        
+    this.state = {
       filterText: '',     //empty search field
       inStockOnly: false  //not-checked box
     };
 
-    //2-3 bind the methods for state change
+    //2-3 bind the methods for state change (just have to)
     this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
     this.handleInStockChange = this.handleInStockChange.bind(this);
   }
 
-  //5-4 set state (state owner)
+  //5-4 set state (state owner) - changes to new state on event action
   handleFilterTextChange(filterText) {
     this.setState({
-      filterText: filterText
+      filterText: filterText   //to constructor state
     });
   }
 
-  //5-5 set state (state owner)
+  //5-5 set state (state owner) - changes to new state on event action
   handleInStockChange(inStockOnly) {
     this.setState({
-      inStockOnly: inStockOnly
+      inStockOnly: inStockOnly //to constructor state
     })
   }
 
@@ -4536,15 +4547,15 @@ class FilterableProductTable3 extends React.Component {
     return (
       <div>
         <SearchBar3
-          filterText={this.state.filterText}
-          inStockOnly={this.state.inStockOnly}
-          onFilterTextChange={this.handleFilterTextChange}
-          onInStockChange={this.handleInStockChange}
+          filterText={this.state.filterText}                //from constructor
+          inStockOnly={this.state.inStockOnly}              //from constructor
+          onFilterTextChange={this.handleFilterTextChange}  //pass method prop
+          onInStockChange={this.handleInStockChange}        //from method prop
         />
         <ProductTable3
-          products={this.props.products}
-          filterText={this.state.filterText}
-          inStockOnly={this.state.inStockOnly}
+          filterText={this.state.filterText}                //from constructor
+          inStockOnly={this.state.inStockOnly}              //from constructor
+          products={this.props.products}                    //pass data prop
         />
       </div>
     );
