@@ -4575,3 +4575,118 @@ const PRODUCTS3 = [
 const root43 = ReactDOM.createRoot(document.getElementById('container3'));
 //1-1 call render with top component + pass prop JSON data
 root43.render(<FilterableProductTable3 products={PRODUCTS3} />);
+
+
+
+//************************************************************************************
+// INTRODUCING HOOKS
+//************************************************************************************
+
+/*
+Hooks are a new addition in React 16.8. They let you use state and other React features 
+without writing a class.
+
+import React, { useState } from 'react';
+
+function Example() {
+  // Declare a new state variable, which we'll call "count"  
+  //const [count, setCount] = useState(0);
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}
+
+This new function useState is the first “Hook” we’ll learn about, but this example is just 
+a teaser. Don’t worry if it doesn’t make sense yet!
+
+You can start learning Hooks on the next page. On this page, we’ll continue by explaining 
+why we’re adding Hooks to React and how they can help you write great applications.
+
+    Note
+
+    React 16.8.0 is the first release to support Hooks. When upgrading, don’t forget to 
+    update all packages, including React DOM. React Native has supported Hooks since the 
+    0.59 release of React Native.
+
+
+//NO BREAKING CHANGE
+Before we continue, note that Hooks are:
+
+    --Completely opt-in. You can try Hooks in a few components without rewriting any existing 
+    code. But you don’t have to learn or use Hooks right now if you don’t want to.
+    --100% backwards-compatible. Hooks don’t contain any breaking changes.
+    --Available now. Hooks are now available with the release of v16.8.0.
+
+There are no plans to remove classes from React. You can read more about the gradual adoption 
+strategy for Hooks in the bottom section of this page.
+
+Hooks don’t replace your knowledge of React concepts. Instead, Hooks provide a more direct API 
+to the React concepts you already know: props, state, context, refs, and lifecycle. As we will ¨
+show later, Hooks also offer a new powerful way to combine them.
+
+
+//************************************************************************************
+// USING THE STATE HOOK
+//************************************************************************************
+
+Hooks are a new addition in React 16.8. They let you use state and other React features without 
+writing a class.
+
+The introduction page used this example to get familiar with Hooks:
+
+import React, { useState } from 'react';
+
+function Example() {
+  // Declare a new state variable, which we'll call "count"  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}
+
+We’ll start learning about Hooks by comparing this code to an equivalent class example.
+
+
+//EQUIVALENT CLASS EXAMPLE
+If you used classes in React before, this code should look familiar:
+
+class Example extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <p>You clicked {this.state.count} times</p>
+        <button onClick={() => this.setState({ count: this.state.count + 1 })}>
+          Click me
+        </button>
+      </div>
+    );
+  }
+}
+
+The state starts as { count: 0 }, and we increment state.count when the user clicks a button 
+by calling this.setState(). We’ll use snippets from this class throughout the page.
+
+    Note
+    You might be wondering why we’re using a counter here instead of a more realistic example. 
+    This is to help us focus on the API while we’re still making our first steps with Hooks.
+
+
+//HOOKS AND FUNCTION COMPONENTS
+
+*/
